@@ -7,7 +7,7 @@ public class ParseEXPT
   public static void main(String[] args)
   {
     PrintWriter pen = new PrintWriter(System.out, true);
-    pen.println(Parse.parse("[1,2]"));
+    pen.println(Parse.parse("\"no\\ra\\ra\\ra\""));
   }
 
 }
