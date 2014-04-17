@@ -50,6 +50,9 @@ public class ParseTest
     String num4 = "1.4e25";
     assertEquals("Testing with one number", BigDecimal.valueOf(1.4e25),
                  Parse.parse(num4));
+    String num0 = "0";
+    assertEquals("Testing with one number", BigDecimal.valueOf(0.0),
+                 Parse.parse(num0));
   } // test parse number
 
   @Test
