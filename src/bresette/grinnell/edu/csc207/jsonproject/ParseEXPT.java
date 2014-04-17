@@ -1,13 +1,29 @@
 package bresette.grinnell.edu.csc207.jsonproject;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class ParseEXPT
 {
-  public static void main(String[] args)
+  public static void main(String[] args) throws ClassNotFoundException
   {
     PrintWriter pen = new PrintWriter(System.out, true);
-    pen.println(Parse.parse("\"no\\ra\\ra\\ra\""));
+    Object ob = Parse.parse("[\"n\",2]");
+    pen.println(ob);
+    String result = Parse.unparse(ob);
+    pen.println(result);
+    pen.println(Parse.parse(result));
+    
+    
+    Object two = Parse.parse("{\"nora\":20}");
+    pen.println(two);
+    String res = Parse.unparse(two);
+    pen.println(res);
+    pen.println(Parse.parse(res));
+   
+    
+    
   }
 
 }
