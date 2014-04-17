@@ -84,6 +84,7 @@ public class Parse
         case '7':
         case '8':
         case '9':
+        case '-':
           {
             int start = json.index;
             while (json.index < json.value.length()

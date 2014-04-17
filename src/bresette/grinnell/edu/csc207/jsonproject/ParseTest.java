@@ -34,6 +34,15 @@ public class ParseTest
     String num = "123.456";
     Object ob = BigDecimal.valueOf(123.456);
     assertEquals("Testing with one number", ob, Parse.parse(num));
+    
+    String num1 = "-11.23";
+    assertEquals("Testing with one number", BigDecimal.valueOf(-11.23), Parse.parse(num1));
+    String num2 = "0.1";
+    assertEquals("Testing with one number", BigDecimal.valueOf(0.1), Parse.parse(num2));
+    String num3 = "4e25";
+    assertEquals("Testing with one number", BigDecimal.valueOf(4e25), Parse.parse(num3));
+    String num4 = "1.4e25";
+    assertEquals("Testing with one number", BigDecimal.valueOf(1.4e25), Parse.parse(num4));
   } // test parse number
   
   @Test
