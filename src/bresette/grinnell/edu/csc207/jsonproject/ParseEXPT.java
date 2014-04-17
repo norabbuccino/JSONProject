@@ -13,7 +13,7 @@ public class ParseEXPT
     throws ClassNotFoundException, IOException
   {
     PrintWriter pen = new PrintWriter(System.out, true);
-    Object ob = Parse.parse("[\"n\",2]");
+    Object ob = Parse.parse("{\"name\":{\"first\":\"nora\",\"last\":\"buccino\"}}");
     pen.println(ob);
     String result = Parse.unparse(ob);
     pen.println(result);
@@ -31,20 +31,6 @@ public class ParseEXPT
     String nullresult = Parse.unparse(nullity);
     pen.println(nullresult);
     pen.println(Parse.parse(nullresult));
-    
-    
-    BufferedReader eyes;
-    java.io.File infile;
-    java.io.FileReader istream;
-    infile = new java.io.File ("/Users/norabuccino/Desktop/jsonExamples.txt");
-    istream = new java.io.FileReader (infile);
-    eyes = new BufferedReader (istream);
-
-    String line;
-    while((line = eyes.readLine()) != null)
-      {
-        pen.println(Parse.parse(line));
-      }
 
   }//main(String)
 
