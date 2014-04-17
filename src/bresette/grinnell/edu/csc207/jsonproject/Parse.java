@@ -8,7 +8,11 @@ import java.util.Hashtable;
 // With help from Alex Greenberg
 // Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
 
-
+/**
+ *Parse
+ *
+ *A method to parse a string of JSON to Java
+ */
 public class Parse
 {
   public static Object parse(String str)
@@ -132,37 +136,45 @@ public class Parse
           } // case f
         default:
           return "Incorrect JSON";
-      }
-
+      }//switch
   } // Parse(Object)
   
-  public static String unparse(Object ob) throws ClassNotFoundException
+  /**
+   * Unparse
+   * 
+   * A method to parse a Java object to a string of JSON
+   *    The Java object may be a String, a Hashtable, 
+   *    an ArrayList, a BigDecimal number, the booleans true 
+   *    or false, or null.
+   */
+  public static String unparse(Object ob)
+    throws ClassNotFoundException
   {
-    if(ob.getClass() == Class.forName("java.lang.String"))
+    if (ob.getClass() == Class.forName("java.lang.String"))
       {
         return "\"" + ob + "\"";
-      }
-    else if(ob.getClass() == Class.forName("java.math.BigDecimal"))
+      }//if String
+    else if (ob.getClass() == Class.forName("java.math.BigDecimal"))
       {
         return ob.toString();
-      }
-    else if(ob.getClass() == Class.forName("java.util.ArrayList"))
+      }//else if BigDecimal
+    else if (ob.getClass() == Class.forName("java.util.ArrayList"))
       {
         StringBuilder myString = new StringBuilder();
         myString.append('[');
-        ArrayList<Object> a =  (ArrayList<Object>) ob;
+        ArrayList<Object> a = (ArrayList<Object>) ob;
         int i = 0;
-        while(i < a.size()-1)
+        while (i < a.size() - 1)
           {
             myString.append(unparse(a.get(i)));
             myString.append(',');
             i++;
-          }
-        myString.append(unparse(a.get(a.size()-1)));
+          }//while
+        myString.append(unparse(a.get(a.size() - 1)));
         myString.append(']');
-        return myString.toString(); 
-      }
-    else if(ob.getClass() == Class.forName("java.util.Hashtable"))
+        return myString.toString();
+      }//else if ArrayList
+    else if (ob.getClass() == Class.forName("java.util.Hashtable"))
       {
         StringBuilder myString = new StringBuilder();
         myString.append('{');
@@ -170,30 +182,30 @@ public class Parse
         ArrayList<Object> keys = Collections.list(hash.keys());
         ArrayList<Object> vals = Collections.list(hash.elements());
         int i = 0;
-        while(i < vals.size()-1)
+        while (i < vals.size() - 1)
           {
             myString.append(unparse(keys.get(i)));
             myString.append(':');
             myString.append(unparse(vals.get(i)));
             myString.append(',');
             i++;
-          }
+          }//while
         myString.append(unparse(keys.get(keys.size() - 1)));
         myString.append(':');
         myString.append(unparse(vals.get(vals.size() - 1)));
         myString.append('}');
-        return myString.toString(); 
-      }
-    else if(ob.getClass() == Class.forName("java.lang.Boolean"))
+        return myString.toString();
+      }//else if Hashtable
+    else if (ob.getClass() == Class.forName("java.lang.Boolean"))
       {
         return ob.toString();
-      }
-    else if(ob == null)
+      }//else if Boolean
+    else if (ob == null)
       {
         return "null";
-      }
+      }//else if null
     else
       return "Not a properly formatted Object";
-  } //
+  } //unparse(Object)
 } // class ParseObject
 

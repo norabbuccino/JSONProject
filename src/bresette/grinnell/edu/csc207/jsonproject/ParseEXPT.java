@@ -15,7 +15,6 @@ public class ParseEXPT
     pen.println(result);
     pen.println(Parse.parse(result));
     
-    
     Object two = Parse.parse("{\"nora\":20}");
     pen.println(two);
     String res = Parse.unparse(two);
@@ -27,8 +26,6 @@ public class ParseEXPT
     String nullresult = Parse.unparse(nullity);
     pen.println(nullresult);
     pen.println(Parse.parse(nullresult));
-    
-    
-  }
+  }//main(String)
 
-}
+}//class ParseEXPT
