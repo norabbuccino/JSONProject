@@ -23,31 +23,38 @@ public class ParseTest
   } // test parse string
 
   @Test
-  public void testUnparseString() throws ClassNotFoundException
+  public void testUnparseString()
+    throws ClassNotFoundException
   {
     String hola = "\"Hello World\"";
-    assertEquals("Testing unparse string", hola, Parse.unparse(Parse.parse(hola)));
+    assertEquals("Testing unparse string", hola,
+                 Parse.unparse(Parse.parse(hola)));
   } // test unparse string
-  
+
   @Test
   public void testParseNumber()
   {
     String num = "123.456";
     Object ob = BigDecimal.valueOf(123.456);
     assertEquals("Testing with one number", ob, Parse.parse(num));
-    
+
     String num1 = "-11.23";
-    assertEquals("Testing with one number", BigDecimal.valueOf(-11.23), Parse.parse(num1));
-    String num2 = "0.1";
-    assertEquals("Testing with one number", BigDecimal.valueOf(0.1), Parse.parse(num2));
+    assertEquals("Testing with one number", BigDecimal.valueOf(-11.23),
+                 Parse.parse(num1));
+    String num2 = ".1";
+    assertEquals("Testing with one number", BigDecimal.valueOf(.1),
+                 Parse.parse(num2));
     String num3 = "4e25";
-    assertEquals("Testing with one number", BigDecimal.valueOf(4e25), Parse.parse(num3));
+    assertEquals("Testing with one number", BigDecimal.valueOf(4e25),
+                 Parse.parse(num3));
     String num4 = "1.4e25";
-    assertEquals("Testing with one number", BigDecimal.valueOf(1.4e25), Parse.parse(num4));
+    assertEquals("Testing with one number", BigDecimal.valueOf(1.4e25),
+                 Parse.parse(num4));
   } // test parse number
-  
+
   @Test
-  public void testUnparseNumber() throws ClassNotFoundException
+  public void testUnparseNumber()
+    throws ClassNotFoundException
   {
     String num = "123.456";
     assertEquals("Testing unparse string", num, Parse.unparse(Parse.parse(num)));
@@ -70,25 +77,26 @@ public class ParseTest
   } // test parse literals
 
   @Test
-  public void testUnparseLiterals() throws ClassNotFoundException
+  public void testUnparseLiterals()
+    throws ClassNotFoundException
   {
     String tru = "true";
     assertEquals("Testing unparse true", tru, Parse.unparse(Parse.parse(tru)));
-    
+
     String fal = "false";
     assertEquals("Testing unparse false", fal, Parse.unparse(Parse.parse(fal)));
-    
+
     String nul = "null";
     assertEquals("Testing unparse null", nul, Parse.unparse(Parse.parse(nul)));
   } // test unparse literals
-  
+
   @Test
   public void testParseObject()
   {
-    String object = "{\"nora\":11,\"helen\":12}";
-    assertEquals("Testing objects", BigDecimal.valueOf(11.0),
+    String object = "{\"nora\":1,\"helen\":\"d\"}";
+    assertEquals("Testing objects", BigDecimal.valueOf(1.0),
                  ((Hashtable) Parse.parse(object)).get("nora"));
-    assertEquals("Testing objects", BigDecimal.valueOf(12.0),
+    assertEquals("Testing objects", "d",
                  ((Hashtable) Parse.parse(object)).get("helen"));
 
   } // test parse objects
@@ -101,6 +109,8 @@ public class ParseTest
     String literalArray = "[true,false,null]";
     String mixedArray1 = "[1,2,\"hello\"]";
     String mixedArray2 = "[1,true,\"hello\"]";
+    String nullArray = "[null,null,null]";
+    String empty = "[]";
 
     ArrayList<Object> intArrayList = new ArrayList<Object>();
     for (int i = 1; i < 10; i++)
@@ -123,34 +133,49 @@ public class ParseTest
     literalArrayList.add(null);
     assertEquals("Testing an array of literals", literalArrayList,
                  Parse.parse(literalArray));
-    
+
     ArrayList<Object> mixedArrayList1 = new ArrayList<Object>();
-    mixedArrayList1.add(BigDecimal.valueOf((double)1));
-    mixedArrayList1.add(BigDecimal.valueOf((double)2));
+    mixedArrayList1.add(BigDecimal.valueOf((double) 1));
+    mixedArrayList1.add(BigDecimal.valueOf((double) 2));
     mixedArrayList1.add("hello");
-    assertEquals("Testing a mixed array", mixedArrayList1, Parse.parse(mixedArray1));
-    
+    assertEquals("Testing a mixed array", mixedArrayList1,
+                 Parse.parse(mixedArray1));
+
     ArrayList<Object> mixedArrayList2 = new ArrayList<Object>();
-    mixedArrayList2.add(BigDecimal.valueOf((double)1));
+    mixedArrayList2.add(BigDecimal.valueOf((double) 1));
     mixedArrayList2.add(true);
     mixedArrayList2.add("hello");
-    assertEquals("Testing a mixed array", mixedArrayList2, Parse.parse(mixedArray2));
+    assertEquals("Testing a mixed array", mixedArrayList2,
+                 Parse.parse(mixedArray2));
+
+    ArrayList<Object> nullArrayList = new ArrayList<Object>();
+    nullArrayList.add(null);
+    nullArrayList.add(null);
+    nullArrayList.add(null);
+    assertEquals("Testing a null array", nullArrayList, Parse.parse(nullArray));
+
+    ArrayList<Object> emptyArrayList = new ArrayList<Object>();
+    assertEquals("Testing empty array", emptyArrayList, Parse.parse(empty));
   } // test parse array
 
   @Test
-  public void testParseNestedObject() throws ClassNotFoundException
+  public void testParseNestedObject()
+    throws ClassNotFoundException
   {
     String obj = "{\"name\":{\"first\":\"nora\",\"last\":\"buccino\"}}";
     String result = Parse.unparse(Parse.parse(obj));
-    assertEquals("Testing with nested arrays", Parse.parse(result), Parse.parse(obj));
+    assertEquals("Testing with nested arrays", Parse.parse(result),
+                 Parse.parse(obj));
   } // test parse nested objects
 
   @Test
-  public void testParseNestedArray() throws ClassNotFoundException
+  public void testParseNestedArray()
+    throws ClassNotFoundException
   {
     String obj = "[1,2,3,[2,3,45]]";
     String result = Parse.unparse(Parse.parse(obj));
-    assertEquals("Testing with nested arrays", Parse.parse(result), Parse.parse(obj));
+    assertEquals("Testing with nested arrays", Parse.parse(result),
+                 Parse.parse(obj));
   } // test parse nested arrays
 
 }

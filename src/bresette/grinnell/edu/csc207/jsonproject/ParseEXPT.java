@@ -10,22 +10,23 @@ import java.util.Hashtable;
 public class ParseEXPT
 {
   public static void main(String[] args)
-    throws ClassNotFoundException, IOException
+    throws ClassNotFoundException,
+      IOException
   {
     PrintWriter pen = new PrintWriter(System.out, true);
-    Object ob = Parse.parse("{\"name\":{\"first\":\"nora\",\"last\":\"buccino\"}}");
+    Object ob =
+        Parse.parse("{\"name\":{\"first\":\"nora\",\"last\":\"buccino\"}}");
     pen.println(ob);
     String result = Parse.unparse(ob);
     pen.println(result);
     pen.println(Parse.parse(result));
-    
+
     Object two = Parse.parse("{\"nora\":20}");
     pen.println(two);
     String res = Parse.unparse(two);
     pen.println(res);
     pen.println(Parse.parse(res));
 
-    
     Object nullity = Parse.parse("null");
     pen.println(nullity);
     String nullresult = Parse.unparse(nullity);

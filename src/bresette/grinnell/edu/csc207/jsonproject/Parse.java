@@ -85,6 +85,7 @@ public class Parse
         case '8':
         case '9':
         case '-':
+        case '.':
           {
             int start = json.index;
             while (json.index < json.value.length()
@@ -152,7 +153,7 @@ public class Parse
   public static String unparse(Object ob)
     throws ClassNotFoundException
   {
-    if(ob == null)
+    if (ob == null)
       {
         return "null";
       } // if null
