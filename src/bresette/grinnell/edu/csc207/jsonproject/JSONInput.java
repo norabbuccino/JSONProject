@@ -9,5 +9,5 @@ public class JSONInput
   {
     this.value = str;
     this.index = 0;
-  }
-}
+  }//JSONInput(String)
+}//class JSONInput

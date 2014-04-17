@@ -18,12 +18,7 @@ public class ParseTest
   @Test
   public void testParseFromFile() throws FileNotFoundException
   {
-    BufferedReader eyes;
-    java.io.File infile;
-    java.io.FileReader istream;
-    infile = new java.io.File ("/Users/norabuccino/Desktop/jsonExamples.txt");
-    istream = new java.io.FileReader (infile);
-    eyes = new BufferedReader (istream);
+
     
     
   }
