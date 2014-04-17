@@ -132,8 +132,7 @@ public class Parse
           } // case f
         default:
           return "Incorrect JSON";
-      }
-
+      }//switch
   } // Parse(Object)
   
   public static String unparse(Object ob) throws ClassNotFoundException
@@ -141,11 +140,11 @@ public class Parse
     if(ob.getClass() == Class.forName("java.lang.String"))
       {
         return "\"" + ob + "\"";
-      }
+      }//if String
     else if(ob.getClass() == Class.forName("java.math.BigDecimal"))
       {
         return ob.toString();
-      }
+      }//else if BigDecimal
     else if(ob.getClass() == Class.forName("java.util.ArrayList"))
       {
         StringBuilder myString = new StringBuilder();
@@ -157,11 +156,11 @@ public class Parse
             myString.append(unparse(a.get(i)));
             myString.append(',');
             i++;
-          }
+          }//while
         myString.append(unparse(a.get(a.size()-1)));
         myString.append(']');
         return myString.toString(); 
-      }
+      }//else if ArrayList
     else if(ob.getClass() == Class.forName("java.util.Hashtable"))
       {
         StringBuilder myString = new StringBuilder();
@@ -177,23 +176,23 @@ public class Parse
             myString.append(unparse(vals.get(i)));
             myString.append(',');
             i++;
-          }
+          }//while
         myString.append(unparse(keys.get(keys.size() - 1)));
         myString.append(':');
         myString.append(unparse(vals.get(vals.size() - 1)));
         myString.append('}');
         return myString.toString(); 
-      }
+      }//else if Hashtable
     else if(ob.getClass() == Class.forName("java.lang.Boolean"))
       {
         return ob.toString();
-      }
+      }//else if Boolean
     else if(ob == null)
       {
         return "null";
-      }
+      }//else if null
     else
       return "Not a properly formatted Object";
-  } //
+  } //unparse(Object)
 } // class ParseObject
 
