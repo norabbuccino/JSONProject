@@ -27,7 +27,8 @@ public class ParseTest
   {
     String hola = "\"Hello World\"";
     assertEquals("Testing unparse string", hola, Parse.unparse(Parse.parse(hola)));
-  }
+  } // test unparse string
+  
   @Test
   public void testParseNumber()
   {
@@ -50,7 +51,7 @@ public class ParseTest
   {
     String num = "123.456";
     assertEquals("Testing unparse string", num, Parse.unparse(Parse.parse(num)));
-  }
+  } // test unparse number
 
   @Test
   public void testParseLiterals()
@@ -79,7 +80,7 @@ public class ParseTest
     
     String nul = "null";
     assertEquals("Testing unparse null", nul, Parse.unparse(Parse.parse(nul)));
-  }
+  } // test unparse literals
   
   @Test
   public void testParseObject()
@@ -98,6 +99,8 @@ public class ParseTest
     String intArray = "[1,2,3,4,5,6,7,8,9]";
     String strArray = "[\"nora\",\"helen\",\"csc207\"]";
     String literalArray = "[true,false,null]";
+    String mixedArray1 = "[1,2,\"hello\"]";
+    String mixedArray2 = "[1,true,\"hello\"]";
 
     ArrayList<Object> intArrayList = new ArrayList<Object>();
     for (int i = 1; i < 10; i++)
@@ -120,6 +123,18 @@ public class ParseTest
     literalArrayList.add(null);
     assertEquals("Testing an array of literals", literalArrayList,
                  Parse.parse(literalArray));
+    
+    ArrayList<Object> mixedArrayList1 = new ArrayList<Object>();
+    mixedArrayList1.add(BigDecimal.valueOf((double)1));
+    mixedArrayList1.add(BigDecimal.valueOf((double)2));
+    mixedArrayList1.add("hello");
+    assertEquals("Testing a mixed array", mixedArrayList1, Parse.parse(mixedArray1));
+    
+    ArrayList<Object> mixedArrayList2 = new ArrayList<Object>();
+    mixedArrayList2.add(BigDecimal.valueOf((double)1));
+    mixedArrayList2.add(true);
+    mixedArrayList2.add("hello");
+    assertEquals("Testing a mixed array", mixedArrayList2, Parse.parse(mixedArray2));
   } // test parse array
 
   @Test
