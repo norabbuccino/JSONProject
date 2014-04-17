@@ -22,6 +22,11 @@ public class ParseEXPT
     pen.println(res);
     pen.println(Parse.parse(res));
    
+    Object nullity = Parse.parse("null");
+    pen.println(nullity);
+    String nullresult = Parse.unparse(nullity);
+    pen.println(nullresult);
+    pen.println(Parse.parse(nullresult));
     
     
   }

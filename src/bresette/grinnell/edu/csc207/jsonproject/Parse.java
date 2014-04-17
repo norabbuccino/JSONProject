@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 
-//With help from Alex Greenberg
+// With help from Alex Greenberg
 // Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
 
 
@@ -51,7 +51,7 @@ public class Parse
                 hash.put(key, val);
                 if (json.value.charAt(json.index) == ',')
                   json.index++;
-              }
+              } // while
             return hash;
           }//case {
 
@@ -64,7 +64,7 @@ public class Parse
                    && (json.value.charAt(json.index) != '"' || json.value.charAt(json.index) == '\\'))
               {
                 json.index++;
-              }
+              } // while
             myString = json.value.substring(start, json.index);
             json.index++;
             return myString;
@@ -89,7 +89,7 @@ public class Parse
                        || json.value.charAt(json.index) == 'e' || json.value.charAt(json.index) == 'E'))
               {
                 json.index++;
-              }
+              } // while
             String valStr = json.value.substring(start, json.index);
             BigDecimal digit = BigDecimal.valueOf(Double.valueOf(valStr));
             return digit;
@@ -102,7 +102,7 @@ public class Parse
               {
                 json.index = json.index + 4;
                 return null;
-              }
+              } // if null
             else
               return "Incorrect JSON";
           } // case n
@@ -114,7 +114,7 @@ public class Parse
               {
                 json.index = json.index + 4;
                 return true;
-              }
+              } // if true
             else
               return "Incorrect JSON";
           } // case t
@@ -126,7 +126,7 @@ public class Parse
               {
                 json.index = json.index + 5;
                 return false;
-              }
+              } // if false
             else
               return "Incorrect JSON";
           } // case f
@@ -188,12 +188,12 @@ public class Parse
       {
         return ob.toString();
       }
-    else if(ob.toString() == null)
+    else if(ob == null)
       {
         return "null";
       }
     else
       return "Not a properly formatted Object";
-  }
+  } //
 } // class ParseObject
 
