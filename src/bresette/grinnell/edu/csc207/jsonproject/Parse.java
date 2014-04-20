@@ -7,6 +7,7 @@ import java.util.Hashtable;
 
 // With help from Alex Greenberg
 // Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
+// Used Sam Rebelsky's Sample JSON Parser code for unparsing arraylists
 
 /**
  *Parse
@@ -166,20 +167,23 @@ public class Parse
         return ob.toString();
       } // if number
     else if (ob.getClass() == Class.forName("java.util.ArrayList"))
-      {
-        StringBuilder myString = new StringBuilder();
-        myString.append('[');
+      { 
+        //Took code from Sam's sample JSON parser
+        StringBuilder result = new StringBuilder();
+        boolean first = true; // Hack!
         ArrayList<Object> a = (ArrayList<Object>) ob;
-        int i = 0;
-        while (i < a.size() - 1)
+        result.append("[");
+        for (Object obj : a)
           {
-            myString.append(unparse(a.get(i)));
-            myString.append(',');
-            i++;
-          }//while
-        myString.append(unparse(a.get(a.size() - 1)));
-        myString.append(']');
-        return myString.toString();
+            if (!first)
+              result.append(",");
+            else
+              first = false;
+            result.append(unparse(obj));
+          } //  for
+        result.append("]");
+        return result.toString();
+        
       }//else if ArrayList
     else if (ob.getClass() == Class.forName("java.util.Hashtable"))
       {
