@@ -5,22 +5,46 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 
-// With help from Alex Greenberg
-// Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
-
 /**
- *Parse
+ * 
+ * @author Nora Bresette Buccino and Helen Dougherty
+ * 
+ * Citations
+ * Suggestion about creating a separate JSONInput object came from Alex Greenberg
+ * Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
  *
- *A method to parse a string of JSON to Java
  */
 public class Parse
 {
+  /**
+   * A method that parses a string of JSON input and returns an object representing that JSON string
+   * @param str
+   *    a String of JSON input
+   * @return
+   *    an Object representing the JSON input
+   * @pre
+   *    str must be valid JSON
+   * @post
+   *    returns a object representing JSON input from str
+   */
   public static Object parse(String str)
   {
+    //Create a new JSONInput object from the given string
     JSONInput input = new JSONInput(str);
     return parse(input);
   } // Parse(String)
 
+  /**
+   * A method that parses a JSONInput object and returns an object representing that JSONInput
+   * @param json
+   *    a JSONInput object with a string value and int index
+   * @return
+   *    an Object representing the JSON input
+   * @pre
+   *    JSONInput.value must be valid JSON
+   * @post
+   *    returns java objects representing the JSON input
+   */
   public static Object parse(JSONInput json)
   {
     switch (json.value.charAt(json.index))
@@ -142,14 +166,18 @@ public class Parse
   } // Parse(Object)
 
   /**
-   * Unparse
-   * 
-   * A method to parse a Java object to a string of JSON
-   *    The Java object may be a String, a Hashtable, 
-   *    an ArrayList, a BigDecimal number, the booleans true 
-   *    or false, or null.
+   * A method to unparse a Java object and create a string of JSON
+   * @param ob
+   *    a java object, can be a String, a Hashtable, an ArrayList, a BigDecimal or the literals true, false or null
+   * @return
+   *    a string of JSON representing the object
+   * @pre
+   *    ob must be one of the allowed java objects
+   * @post
+   *    returns a string that when parsed will return the same object
+   * @throws ClassNotFoundException
+   *    if the object is not one of the specified classes of objects that are allowed
    */
-
   public static String unparse(Object ob)
     throws ClassNotFoundException
   {
