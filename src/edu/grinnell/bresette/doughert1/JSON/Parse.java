@@ -1,14 +1,17 @@
 package edu.grinnell.bresette.doughert1.JSON;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 
 // With help from Alex Greenberg
 // Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
 // Used Sam Rebelsky's Sample JSON Parser code for unparsing arraylists
-
 
 /**
  * 
@@ -65,6 +68,10 @@ public class Parse
         if (json.value.charAt(json.index) == ',')
           json.index++;
       } // while
+    if (json.value.charAt(json.index) != ']')
+      {
+        throw new Exception("No closing brace in your array. Everything must end eventually.");
+      }
     // skip over the end brace
     json.index++;
     return list;
@@ -100,7 +107,7 @@ public class Parse
               }
             else
               {
-                throw new Exception("Invalid Backslash!");
+                throw new Exception("Invalid Backslash.");
               }
           }
         else
@@ -109,6 +116,10 @@ public class Parse
             json.index++;
           }
       } // while
+    if (json.value.charAt(json.index) != '"')
+      {
+        throw new Exception("String never ends. Remember, nothing lasts forever.");
+      }
     //skip over the end quote
     json.index++;
     return myString.toString();
@@ -143,8 +154,11 @@ public class Parse
    * parsing a number
    * @param json
    * @return
+   * @throws Exception 
    */
+  //try to figure out how to throw an exception if the number has letters in it
   public static Object parseNumber(JSONInput json)
+    throws Exception
   {
     int start = json.index;
     while (json.index < json.value.length()
@@ -155,9 +169,19 @@ public class Parse
       {
         json.index++;
       } // while
+    
     String valStr = json.value.substring(start, json.index);
-    BigDecimal digit = BigDecimal.valueOf(Double.valueOf(valStr));
-    return digit;
+    // we did not think the error message provided by Java was descriptive enough, so we changed it
+    try
+      {
+        BigDecimal digit = BigDecimal.valueOf(Double.valueOf(valStr));
+        return digit;
+      } // try
+    catch (NumberFormatException e)
+      {
+        throw new Exception("Too many decimal points! Generally, numbers only have one decimal point. You should probably retake math.");
+      } // catch
+
   }
 
   /**
@@ -169,6 +193,10 @@ public class Parse
   public static Object parseLiteral(JSONInput json)
     throws Exception
   {
+    if(json.value.length() < 4)
+    {
+      throw new Exception("This is not a valid literal. \n If you meant to make a string, you forgot something.");
+    }
     if (json.value.substring(json.index, json.index + 4).equals("null")
         || json.value.substring(json.index, json.index + 4).equals("true")
         || json.value.substring(json.index, json.index + 5).equals("false"))
@@ -190,7 +218,7 @@ public class Parse
           }
       }
     else
-      throw new Exception("Not null, true or false");
+      throw new Exception("This doesn't make any sense, it is not a valid literal. \n If you meant to make a string, you forgot something.");
   }
 
   /**
@@ -320,5 +348,6 @@ public class Parse
     else
       return "Not a properly formatted Object";
   } //unparse(Object)
+
 } // class ParseObject
 
