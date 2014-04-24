@@ -26,7 +26,8 @@ import java.util.Hashtable;
  * Citations
  * Suggestion about creating a separate JSONInput object came from Alex Greenberg
  * Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
- * Used Sam Rebelsky's sample JSON parser code to help fix our code for unparsing arraylists
+ * Used Sam Rebelsky's sample JSON parser code to help fix our code for unparsing arraylists and to help fix our parse String
+ * so that we could support backslashes in the string input
  *
  */
 public class Parse
@@ -76,32 +77,51 @@ public class Parse
     // skip over the end brace
     json.index++;
     return list;
-  }  //parseArray(JSONInput)
+  } //parseArray(JSONInput)
 
   /**
    * parsing the string
    * @param json
    * @return
+   * @throws Exception 
    */
   public static Object parseString(JSONInput json)
+    throws Exception
   {
+    //Fixed this using Sam's code as a guide
     //create a new string to store the input
-    String myString;
+    StringBuilder myString = new StringBuilder();
     //create a variable to store where the beginning of the substring will be
     int start = json.index;
     //keep going until we hit the end of the string
     while (json.index < (json.value.length() - 1)
-           && (json.value.charAt(json.index) != '"' || json.value.charAt(json.index) == '\\'))
+           && (json.value.charAt(json.index) != '"'))
       {
-        //skip over the character
-        json.index++;
+        if (json.value.charAt(json.index) == '\\')
+          {
+            json.index++;
+            if (json.value.charAt(json.index) == '"'
+                || json.value.charAt(json.index) == '\\'
+                || json.value.charAt(json.index) == '/')
+              {
+                myString.append(json.value.charAt(json.index));
+                json.index++;
+              }
+            else
+              {
+                throw new Exception("Invalid Backslash!");
+              }
+          }
+        else
+          {
+            myString.append(json.value.charAt(json.index));
+            json.index++;
+          }
       } // while
-    //extract the string
-    myString = json.value.substring(start, json.index);
     //skip over the end quote
     json.index++;
-    return myString;
-  } // parseString(JSONInput)
+    return myString.toString();
+  }// parseString(JSONInput)
 
   /**
    * parsing the object

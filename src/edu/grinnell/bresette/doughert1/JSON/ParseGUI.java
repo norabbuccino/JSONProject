@@ -36,8 +36,7 @@ public class ParseGUI
 
     setTitle("Pacman JSON");
     Container pane = getContentPane();
-    pane.setLayout(new FlowLayout());
-
+    pane.setLayout(new GridLayout(3,2));
     //Grid layout requires that you add components to the content pane in the order they should appear
 
     pane.add(JSONInputLabel);
