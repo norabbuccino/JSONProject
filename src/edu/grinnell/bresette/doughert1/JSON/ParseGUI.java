@@ -72,7 +72,7 @@ public class ParseGUI
     //place the title image
     layout.putConstraint(SpringLayout.WEST, parserTitle, 110,
                          SpringLayout.WEST, pane);
-    
+
     //place the parse label
     layout.putConstraint(SpringLayout.WEST, parseLabel, 20, SpringLayout.WEST,
                          pane);
@@ -94,14 +94,18 @@ public class ParseGUI
                          SpringLayout.WEST, pane);
     layout.putConstraint(SpringLayout.NORTH, unparseLabel, 200,
                          SpringLayout.NORTH, pane);
-    
+
     //place the unparse text box
-    layout.putConstraint(SpringLayout.WEST, unparseText, 230, SpringLayout.WEST, unparseLabel);
-    layout.putConstraint(SpringLayout.NORTH, unparseText, 200, SpringLayout.NORTH, pane);
-    
+    layout.putConstraint(SpringLayout.WEST, unparseText, 230,
+                         SpringLayout.WEST, unparseLabel);
+    layout.putConstraint(SpringLayout.NORTH, unparseText, 200,
+                         SpringLayout.NORTH, pane);
+
     //place the unparse button
-    layout.putConstraint(SpringLayout.WEST, unparseButton, 350, SpringLayout.WEST, unparseText);
-    layout.putConstraint(SpringLayout.NORTH, unparseButton, 230, SpringLayout.WEST, pane);
+    layout.putConstraint(SpringLayout.WEST, unparseButton, 350,
+                         SpringLayout.WEST, unparseText);
+    layout.putConstraint(SpringLayout.NORTH, unparseButton, 230,
+                         SpringLayout.WEST, pane);
 
     setSize(HEIGHT, WIDTH);
     setVisible(true);
@@ -109,7 +113,6 @@ public class ParseGUI
 
     parseLabel.setForeground(Color.white);
     unparseLabel.setForeground(Color.white);
-
 
   }
 

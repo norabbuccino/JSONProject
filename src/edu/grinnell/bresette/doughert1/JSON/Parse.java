@@ -9,15 +9,6 @@ import java.util.Hashtable;
 // Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
 // Used Sam Rebelsky's Sample JSON Parser code for unparsing arraylists
 
-/*
- * Ideas for improvements
- * -Adding support for whitespace characters
- * -Turn spreadsheets into Arrays and back
- * -Manipulate the parsed JSON
- * -Support additional input or output formats
- * -Good error reporting for incorrect input
- * -Return all strings, numbers, literals or arrays that occur in the JSON input
- */
 
 /**
  * 
