@@ -9,7 +9,7 @@
 
  Licensing
  ---------
-
+ Please see the file called LICENSE.
 
  Authors
  -------
@@ -19,6 +19,6 @@
 
  Documentation
  -------------
- 
+ Javadoc included in code
 
  
