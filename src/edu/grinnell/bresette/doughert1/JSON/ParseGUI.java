@@ -16,7 +16,7 @@ import java.awt.*;
 
 /**
  * Create a GUI for parsing JSON strings
- * @author Leonora Bresette Buccino and Helen Dougherty
+ * @author Leonora Bresette Buccino and Helen Dougherty  
  */
 
 public class ParseGUI

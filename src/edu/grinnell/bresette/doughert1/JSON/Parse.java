@@ -71,6 +71,10 @@ public class Parse
    *    an object representing the JSON inupt 
    * @throws Exception
    *    if there is not a closing brace
+   * @pre
+   *    the input must have an open brace and close brace
+   * @post
+   *    the index of the JSONInput variable moves to after the close brace in the value string
    */
   public static Object parseArray(JSONInput json)
     throws Exception
@@ -105,7 +109,11 @@ public class Parse
    * @return
    *    returns the JSON object represented by the string value
    * @throws Exception 
-   *    if there is no closing quotation mark 
+   *    if there is no closing quotation mark or if there is invalid use of a backslash
+   * @pre
+   *    the input must have an open and close quote
+   * @post
+   *    the index of the JSONInput variable moves to after the end quote in the value string  
    */
   public static Object parseString(JSONInput json)
     throws Exception
@@ -151,10 +159,17 @@ public class Parse
   }// parseString(JSONInput)
 
   /**
-   * parsing the object
+   * a method that parses an object
    * @param json
+   *    a JSONInput object with a string value and an int index
    * @return
-   * @throws Exception
+   *    returns the JSON object represented by the JSONInput string
+   * @throws Exception 
+   *    if the object is not formatted properly, if it does not have a string key, or it does not have a value or close bracket
+   * @pre
+   *    the input must have an open and close bracket, the key must be a string and the key and value must be separated by a colon
+   * @post
+   *    the index of the JSONInput variable moves to after the end bracket in the value string
    */
   public static Object parseObject(JSONInput json)
     throws Exception
@@ -166,11 +181,15 @@ public class Parse
           {
             String key;
             Object val;
-
+            // get the key string
             key = (String) parse(json);
+            //skip over the colon
             json.index++;
+            // get the value that goes with the key
             val = parse(json);
+            // put the pair onto the hashtable
             hash.put(key, val);
+            // skip the comma
             if (json.value.charAt(json.index) == ',')
               json.index++;
           } // while
@@ -183,12 +202,18 @@ public class Parse
   }
 
   /**
-   * parsing a number
+   * a method that parses a number
    * @param json
+   *    a JSONInput object with a string value and an int index
    * @return
+   *    returns the number represented by the string value
    * @throws Exception 
+   *    if the number in the string is formatted incorrectly
+   * @pre
+   *    the input must be a properly formatted number, it can start with a -, . or a number, and it can include one decimal point and the letter e
+   * @post
+   *    the index of the JSONInput variable moves to after number
    */
-  //try to figure out how to throw an exception if the number has letters in it
   public static Object parseNumber(JSONInput json)
     throws Exception
   {
@@ -218,10 +243,17 @@ public class Parse
   }
 
   /**
-   * parsing a literal
+   * a method that parses a literal
    * @param json
+   *    a JSONInput object with a string value and an int index
    * @return
-   * @throws Exception
+   *    returns the literal represented by the input string
+   * @throws Exception 
+   *    if the input is not null, true or false and is therefore an invalid literal
+   * @pre
+   *    the input must be a valid literal (null, true, or false)
+   * @post
+   *    the index of the JSONInput variable moves to after the literal
    */
   public static Object parseLiteral(JSONInput json)
     throws Exception
@@ -266,7 +298,7 @@ public class Parse
    * @pre
    *    JSONInput.value must be valid JSON
    * @post
-   *    returns java objects representing the JSON input
+   *    the index moves after each type of object is parsed
    */
   public static Object parse(JSONInput json)
     throws Exception
@@ -274,23 +306,14 @@ public class Parse
     switch (json.value.charAt(json.index))
       {
         case '[':
-          {
-            json.index++;
-            return parseArray(json);
-          } //case [
-
+          json.index++;
+          return parseArray(json);
         case '{':
-          {
-            json.index++;
-            return parseObject(json);
-          }//case {
-
+          json.index++;
+          return parseObject(json);
         case '"':
-          {
-            json.index++;
-            return parseString(json);
-          }//case "
-
+          json.index++;
+          return parseString(json);
         case '0':
         case '1':
         case '2':
@@ -303,9 +326,7 @@ public class Parse
         case '9':
         case '-':
         case '.':
-          {
-            return parseNumber(json);
-          } // all numeric cases
+          return parseNumber(json);
         default:
           return parseLiteral(json);
       }//switch
@@ -317,11 +338,17 @@ public class Parse
    * an ArrayList, a BigDecimal number, the booleans true 
    * or false, or null.
    * @param ob
+   *    a java Object
    * @return
-   * @throws ClassNotFoundException
+   *    a string of JSON representing the object
+   * @throws Exception 
+   * @pre
+   *    the object must be either a String, ArrayList, Hashtable, BigDecimal, or one of the allowed literal valuse
+   * @post
+   *    returns a string of JSON
    */
   public static String unparse(Object ob)
-    throws ClassNotFoundException
+    throws Exception
   {
     if (ob == null)
       {
@@ -381,7 +408,7 @@ public class Parse
         return ob.toString();
       }//else if Boolean
     else
-      return "Not a properly formatted Object";
+      throw new Exception("Not a properly formatted Object");
   } //unparse(Object)
 
 } // class ParseObject

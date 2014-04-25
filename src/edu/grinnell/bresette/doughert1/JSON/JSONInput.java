@@ -3,7 +3,7 @@ package edu.grinnell.bresette.doughert1.JSON;
 public class JSONInput
 {
   /**
-   * a string to store the value
+   * a string to store the value  
    */
   String value;
 
