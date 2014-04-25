@@ -6,47 +6,103 @@ import javax.swing.border.Border;
 import java.awt.event.*;
 import java.awt.*;
 
-//http://www.udemy.com/blog/java-gui-tutorial/ adapted my code from their sample code!
-//http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-//http://stackoverflow.com/questions/789517/java-how-to-create-a-custom-dialog-box
-//used fonts "Love Ya Like a Sister" by Kimberly Geswein and "Journal" by Fontourist both from Dafont.com
+/*
+* Citations
+* http://www.udemy.com/blog/java-gui-tutorial/ adapted our code from their sample code!
+* http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+* http://stackoverflow.com/questions/789517/java-how-to-create-a-custom-dialog-box
+* used fonts "Love Ya Like a Sister" by Kimberly Geswein and "Journal" by Fontourist both from Dafont.com
+*/
+
+/**
+ * Create a GUI for parsing JSON strings
+ * @author Leonora Bresette Buccino and Helen Dougherty
+ */
 
 public class ParseGUI
     extends JFrame
 {
-  ImageIcon titleIcon =
-      new ImageIcon("just-a-very-simple-json-parser-long.png");
-  ImageIcon buttonIcon = new ImageIcon("parse-button.png");
-  ImageIcon errorIcon = new ImageIcon("error.png");
-  ImageIcon inputIcon = new ImageIcon("input.png");
-  ImageIcon objectIcon = new ImageIcon("your-object-is.png");
+  /**
+   * Fields for all of the images that will be used in the GUI
+   */
+  ImageIcon titleIcon;
+  ImageIcon buttonIcon;
+  ImageIcon errorIcon;
+  ImageIcon inputIcon;
+  ImageIcon objectIcon;
 
+  /**
+   * the background color that will be used throughout the GUI
+   */
   Color bgColor = new Color(140, 211, 217);
 
-  JLabel parserTitle;
-  JLabel pacmanPicture;
-  JLabel parseLabel;
-  JLabel unparseLabel;
-  JTextArea parseText;
-  JTextArea unparseText;
-  JButton parseButton;
-  JButton unparseButton;
-  static final int HEIGHT = 770;
-  static final int WIDTH = 350;
-  ParseButtonHandler parseButtonHandler;
-  UnparseButtonHandler unparseButtonHandler;
+  /**
+   * the title for the overall parser
+   */
+  JLabel title;
 
+  /**
+   * the label for the parse text box
+   */
+  JLabel parseLabel;
+
+  /**
+   * the label for the output text box
+   */
+  JLabel outputLabel;
+
+  /**
+   * the text box for parsing
+   */
+  JTextArea parseText;
+
+  /**
+   * the text box for output
+   */
+  JTextArea outputText;
+
+  /**
+   * the button to parse
+   */
+  JButton parseButton;
+
+  /**
+   * the actionListener for the parse button
+   */
+  ParseButtonHandler parseButtonHandler;
+
+  /**
+   * the width of the window
+   */
+  int WIDTH = 770;
+
+  /**
+   * the height of the window
+   */
+  int HEIGHT = 350;
+
+  /**
+   * Create a new ParseGUI
+   */
   public ParseGUI()
   {
-    parserTitle = new JLabel(titleIcon);
+    // importing all of the icons to be used
+    titleIcon = new ImageIcon("just-a-very-simple-json-parser-long.png");
+    buttonIcon = new ImageIcon("parse-button.png");
+    errorIcon = new ImageIcon("error.png");
+    inputIcon = new ImageIcon("input.png");
+    objectIcon = new ImageIcon("your-object-is.png");
+
+    // initializing the labels
+    title = new JLabel(titleIcon);
     parseLabel = new JLabel(inputIcon);
-    unparseLabel = new JLabel(objectIcon);
+    outputLabel = new JLabel(objectIcon);
 
+    // creating the text areas
     parseText = new JTextArea(3, 30);
-    unparseText = new JTextArea(5, 30);
+    outputText = new JTextArea(5, 30);
 
-    //This section specifies the handlers for the buttons and adds an ActionListener.
-
+    // This section specifies the handlers for the buttons and adds an ActionListener.
     parseButton = new JButton(buttonIcon);
     parseButton.setBackground(bgColor);
     Border emptyBorder = BorderFactory.createEmptyBorder();
@@ -54,22 +110,23 @@ public class ParseGUI
     parseButtonHandler = new ParseButtonHandler();
     parseButton.addActionListener(parseButtonHandler);
 
+    // set the title and specify the layout
     setTitle("a simple JSON parser");
     Container pane = getContentPane();
     SpringLayout layout = new SpringLayout();
     pane.setLayout(layout);
     pane.setBackground(bgColor);
 
-    pane.add(parserTitle);
+    // add the elements to the pane
+    pane.add(title);
     pane.add(parseLabel);
     pane.add(parseText);
     pane.add(parseButton);
-    pane.add(unparseLabel);
-    pane.add(unparseText);
+    pane.add(outputLabel);
+    pane.add(outputText);
 
     //place the title image
-    layout.putConstraint(SpringLayout.WEST, parserTitle, 5, SpringLayout.WEST,
-                         pane);
+    layout.putConstraint(SpringLayout.WEST, title, 5, SpringLayout.WEST, pane);
 
     //place the parse label
     layout.putConstraint(SpringLayout.WEST, parseLabel, 20, SpringLayout.WEST,
@@ -87,76 +144,60 @@ public class ParseGUI
     layout.putConstraint(SpringLayout.NORTH, parseButton, 137,
                          SpringLayout.NORTH, pane);
 
-    //place the unparse label
-    layout.putConstraint(SpringLayout.WEST, unparseLabel, 20,
-                         SpringLayout.WEST, pane);
-    layout.putConstraint(SpringLayout.NORTH, unparseLabel, 200,
+    //place the output label
+    layout.putConstraint(SpringLayout.WEST, outputLabel, 20, SpringLayout.WEST,
+                         pane);
+    layout.putConstraint(SpringLayout.NORTH, outputLabel, 200,
                          SpringLayout.NORTH, pane);
 
-    //place the unparse text box
-    layout.putConstraint(SpringLayout.WEST, unparseText, 230,
-                         SpringLayout.WEST, unparseLabel);
-    layout.putConstraint(SpringLayout.NORTH, unparseText, 200,
+    //place the output text box
+    layout.putConstraint(SpringLayout.WEST, outputText, 230, SpringLayout.WEST,
+                         outputLabel);
+    layout.putConstraint(SpringLayout.NORTH, outputText, 200,
                          SpringLayout.NORTH, pane);
 
-    setSize(HEIGHT, WIDTH);
+    setSize(WIDTH, HEIGHT);
     setVisible(true);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
+  } // ParseGUI()
 
-    parseLabel.setForeground(Color.white);
-    unparseLabel.setForeground(Color.white);
-
-  }
-
-  private class ParseButtonHandler
+  /**
+   * a class that implements ActionListener and controls the result of clicking the parse button
+   * @author Leonora Bresette Buccino and Helen Dougherty
+   *
+   */
+  public class ParseButtonHandler
       implements ActionListener
   {
+    /**
+     * controls the action performed when the parse button is clicked
+     */
     public void actionPerformed(ActionEvent e)
     {
       Object output;
       try
         {
+          // print the result of parsing the input to the screen in the output box
           output = Parse.parse((String) parseText.getText());
-          parseText.setText("");
-          unparseText.setText("" + output);
-        }
+          outputText.setText("" + output);
+        } // try
       catch (Exception e1)
         {
-          UIManager UI = new UIManager();
-          UI.put("OptionPane.background", bgColor);
-          UI.put("Panel.background", bgColor);
-          UI.put("OptionPane.messageForeground", Color.black);
-          JOptionPane errorMessage = new JOptionPane();
-          errorMessage.showMessageDialog(null, e1.getMessage(),
-                                         "Error Message",
-                                         JOptionPane.INFORMATION_MESSAGE, errorIcon);
-        }
+          // create a dialog box that pops up and displays the error message
+          UIManager.put("OptionPane.background", bgColor);
+          UIManager.put("Panel.background", bgColor);
+          UIManager.put("OptionPane.messageForeground", Color.black);
+          JOptionPane.showMessageDialog(null, e1.getMessage(), "Error Message",
+                                        JOptionPane.INFORMATION_MESSAGE,
+                                        errorIcon);
+        } // catch
 
-    }
-  }
-
-  public class UnparseButtonHandler
-      implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      Object output;
-      try
-        {
-          //This does not work properly as it only works for strings                   
-          output = Parse.unparse(unparseText.getText());
-          unparseText.setText("");
-          parseText.setText("" + output);
-        }
-      catch (Exception e1)
-        {
-          e1.printStackTrace();
-        }
-    }
-  }
+    } // actionPerformed(ActionEvent)
+  } // class ParseButtonHandler
 
   public static void main(String[] args)
   {
     ParseGUI rectObj = new ParseGUI();
-  }
-}
+  } // main(String[])
+
+} // class ParseGUI

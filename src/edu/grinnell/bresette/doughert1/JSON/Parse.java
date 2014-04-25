@@ -9,20 +9,32 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
-// With help from Alex Greenberg
-// Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
-// Used Sam Rebelsky's Sample JSON Parser code for unparsing arraylists
+/*
+* Citations
+* Suggestion about creating a separate JSONInput object came from Alex Greenberg
+* Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
+* Used Sam Rebelsky's sample JSON parser code to help fix our code for unparsing arraylists and to help fix our parse String
+* so that we could support backslashes in the string input​
+* basic GUI information
+* http://www.dreamincode.net/forums/topic/23017-basic-gui-tutorial-in-java/
+* http://www.fortystones.com/creating-simple-gui-beginners-java-tutorial/
+* http://www.fortystones.com/event-handlers-java/
+* https://www.udemy.com/blog/java-gui-tutorial/
+* http://stackoverflow.com/questions/1081486/setting-background-color-for-the-jframe​
+* http://stackoverflow.com/questions/9064943/how-to-change-background-color-of-joptionpane
+* http://www.java-forums.org/awt-swing/43011-change-colour-joptionpane.html
+* http://docs.oracle.com/javase/tutorial/uiswing/components/text.html
+* http://docs.oracle.com/javase/tutorial/uiswing/components/button.html
+* http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html
+* http://docs.oracle.com/javase/tutorial/uiswing/layout/spring.html
+* http://stackoverflow.com/questions/2713190/how-to-remove-border-around-buttons
+* http://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html
+* http://docs.oracle.com/javase/tutorial/uiswing/layout/spring.html
+*/
 
 /**
- * 
- * @author Nora Bresette Buccino and Helen Dougherty
- * 
- * Citations
- * Suggestion about creating a separate JSONInput object came from Alex Greenberg
- * Used http://stackoverflow.com/questions/2915453/how-to-get-hashtable-values-as-arraylist for unparsing hashtables
- * Used Sam Rebelsky's sample JSON parser code to help fix our code for unparsing arraylists and to help fix our parse String
- * so that we could support backslashes in the string input
- *
+ * a class that hold parsing methods for JSON
+ * @author Leonora Bresette Buccino and Helen Dougherty
  */
 public class Parse
 {
@@ -42,15 +54,23 @@ public class Parse
     throws Exception
   {
     //Makes the string into a JSONInput object so we can keep track of the index
+    if (str.length() <= 0)
+      {
+        throw new Exception(
+                            "You did not enter anything. Don't just click buttons.");
+      } // if the string is empty
     JSONInput input = new JSONInput(str);
     return parse(input);
   } // Parse(String)
 
   /**
-   * parsing the array
+   * a method that parses an ArrayList 
    * @param json
+   *    A JSONInput object, with a string value and an index
    * @return
+   *    an object representing the JSON inupt 
    * @throws Exception
+   *    if there is not a closing brace
    */
   public static Object parseArray(JSONInput json)
     throws Exception
@@ -67,30 +87,33 @@ public class Parse
         // if we see a comma, skip over it
         if (json.value.charAt(json.index) == ',')
           json.index++;
-      } // while
+      } // while not at the end of the array
     if (json.value.charAt(json.index) != ']')
       {
-        throw new Exception("No closing brace in your array. Everything must end eventually.");
-      }
+        throw new Exception(
+                            "No closing brace in your array. Everything must end eventually.");
+      } // if there is no closing brace
     // skip over the end brace
     json.index++;
     return list;
   } //parseArray(JSONInput)
 
   /**
-   * parsing the string
+   * a method that parses a String
    * @param json
+   *    a JSONInput object with a string value and an int index
    * @return
+   *    returns the JSON object represented by the string value
    * @throws Exception 
+   *    if there is no closing quotation mark 
    */
   public static Object parseString(JSONInput json)
     throws Exception
   {
     //Fixed this using Sam's code as a guide
+
     //create a new string to store the input
     StringBuilder myString = new StringBuilder();
-    //create a variable to store where the beginning of the substring will be
-    int start = json.index;
     //keep going until we hit the end of the string
     while (json.index < (json.value.length() - 1)
            && (json.value.charAt(json.index) != '"'))
@@ -104,22 +127,24 @@ public class Parse
               {
                 myString.append(json.value.charAt(json.index));
                 json.index++;
-              }
+              } // if ", \\, or /
             else
               {
                 throw new Exception("Invalid Backslash.");
-              }
-          }
+              } // else
+          } // if the next character is a backslash
         else
           {
+            // add the character to the string and move to the next character
             myString.append(json.value.charAt(json.index));
             json.index++;
-          }
-      } // while
+          } // else
+      } // while not at the end of the string
     if (json.value.charAt(json.index) != '"')
       {
-        throw new Exception("String never ends. Remember, nothing lasts forever.");
-      }
+        throw new Exception(
+                            "String never ends. Remember, nothing lasts forever.");
+      } // if there is not end quote
     //skip over the end quote
     json.index++;
     return myString.toString();
@@ -134,20 +159,27 @@ public class Parse
   public static Object parseObject(JSONInput json)
     throws Exception
   {
-    Hashtable<String, Object> hash = new Hashtable<String, Object>();
-    while (json.value.charAt(json.index) != '}')
+    try
       {
-        String key;
-        Object val;
+        Hashtable<String, Object> hash = new Hashtable<String, Object>();
+        while (json.value.charAt(json.index) != '}')
+          {
+            String key;
+            Object val;
 
-        key = (String) parse(json);
-        json.index++;
-        val = parse(json);
-        hash.put(key, val);
-        if (json.value.charAt(json.index) == ',')
-          json.index++;
-      } // while
-    return hash;
+            key = (String) parse(json);
+            json.index++;
+            val = parse(json);
+            hash.put(key, val);
+            if (json.value.charAt(json.index) == ',')
+              json.index++;
+          } // while
+        return hash;
+      } // try
+    catch (Exception e)
+      {
+        throw new Exception("You did not format your object properly.");
+      } // catch
   }
 
   /**
@@ -169,7 +201,7 @@ public class Parse
       {
         json.index++;
       } // while
-    
+
     String valStr = json.value.substring(start, json.index);
     // we did not think the error message provided by Java was descriptive enough, so we changed it
     try
@@ -179,7 +211,8 @@ public class Parse
       } // try
     catch (NumberFormatException e)
       {
-        throw new Exception("Too many decimal points! Generally, numbers only have one decimal point. You should probably retake math.");
+        throw new Exception(
+                            "Too many decimal points! Generally, numbers only have one decimal point. You should probably retake math.");
       } // catch
 
   }
@@ -193,10 +226,11 @@ public class Parse
   public static Object parseLiteral(JSONInput json)
     throws Exception
   {
-    if(json.value.length() < 4)
-    {
-      throw new Exception("This is not a valid literal. \n If you meant to make a string, you forgot something.");
-    }
+    if (json.value.length() < 4)
+      {
+        throw new Exception(
+                            "This is not a valid literal. \n If you meant to make a string, you forgot something.");
+      }
     if (json.value.substring(json.index, json.index + 4).equals("null")
         || json.value.substring(json.index, json.index + 4).equals("true")
         || json.value.substring(json.index, json.index + 5).equals("false"))
@@ -218,7 +252,8 @@ public class Parse
           }
       }
     else
-      throw new Exception("This doesn't make any sense, it is not a valid literal. \n If you meant to make a string, you forgot something.");
+      throw new Exception(
+                          "This is not a valid literal. \n If you meant to make a string, you forgot something.");
   }
 
   /**
@@ -302,21 +337,21 @@ public class Parse
       } // if number
     else if (ob instanceof ArrayList)
       {
-        //Took code from Sam's sample JSON parser
-        StringBuilder result = new StringBuilder();
+        //TBased code off of Sam's sample JSON parser
+        StringBuilder myString = new StringBuilder();
         boolean first = true; // Hack!
         ArrayList<Object> a = (ArrayList<Object>) ob;
-        result.append("[");
+        myString.append("[");
         for (Object obj : a)
           {
             if (!first)
-              result.append(",");
+              myString.append(",");
             else
               first = false;
-            result.append(unparse(obj));
+            myString.append(unparse(obj));
           } //  for
-        result.append("]");
-        return result.toString();
+        myString.append("]");
+        return myString.toString();
 
       }//else if ArrayList
     else if (ob instanceof Hashtable)

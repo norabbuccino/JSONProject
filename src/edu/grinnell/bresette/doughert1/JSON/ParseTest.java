@@ -15,7 +15,8 @@ public class ParseTest
 {
 
   @Test
-  public void testParseString() throws Exception
+  public void testParseString()
+    throws Exception
   {
     String hola = "\"Hello World\"";
     Object ob = "Hello World";
@@ -32,7 +33,8 @@ public class ParseTest
   } // test unparse string
 
   @Test
-  public void testParseNumber() throws Exception
+  public void testParseNumber()
+    throws Exception
   {
     String num = "123.456";
     Object ob = BigDecimal.valueOf(123.456);
@@ -64,7 +66,8 @@ public class ParseTest
   } // test unparse number
 
   @Test
-  public void testParseLiterals() throws Exception
+  public void testParseLiterals()
+    throws Exception
   {
     String tru = "true";
     Object ob = true;
@@ -94,7 +97,8 @@ public class ParseTest
   } // test unparse literals
 
   @Test
-  public void testParseObject() throws Exception
+  public void testParseObject()
+    throws Exception
   {
     String object = "{\"nora\":1,\"helen\":\"d\"}";
     assertEquals("Testing objects", BigDecimal.valueOf(1.0),
@@ -105,7 +109,8 @@ public class ParseTest
   } // test parse objects
 
   @Test
-  public void testParseArray() throws Exception
+  public void testParseArray()
+    throws Exception
   {
     String intArray = "[1,2,3,4,5,6,7,8,9]";
     String strArray = "[\"nora\",\"helen\",\"csc207\"]";
